@@ -79,6 +79,7 @@ GEM
     nokogiri (1.6.8)
       mini_portile2 (~> 2.1.0)
       pkg-config (~> 1.1.7)
+    pg (0.18.4)
     pkg-config (1.1.7)
     public_activity (1.5.0)
       actionpack (>= 3.0.0)
@@ -178,6 +179,7 @@ DEPENDENCIES
   coffee-rails (~> 4.1.0)
   jbuilder (~> 2.0)
   jquery-rails
+  pg
   public_activity
   rails (= 4.2.5.1)
   rails-api

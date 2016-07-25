@@ -22,6 +22,7 @@ class Api::TransactionsController < Api::ApiController
   end
 
   def edit
+    puts 'edit called'
     ActionController::Parameters.permit_all_parameters = true
     @transaction = Transaction.find(params[:id])
     @transaction.cancel if params[:method] == 'cancel'

@@ -5,9 +5,10 @@ RSpec.describe Transaction, type: :model do
     @fake_customer = double
     @fake_payment_method = double
     allow(@fake_payment_method).to receive(:token).and_return('token_string')
-    allow(@fake_customer).to receive(:success).and_return(true)
+    allow(@fake_customer).to receive(:success?).and_return(true)
     allow(@fake_customer).to receive(:id).and_return('123ABC')
     allow(@fake_customer).to receive(:payment_methods).and_return([@fake_payment_method])
+    allow(@fake_customer).to receive(:customer).and_return(@fake_customer)
     allow(Braintree::Customer).to receive(:create).and_return(@fake_customer)
   end
 
@@ -28,9 +29,10 @@ RSpec.describe Transaction, type: :model do
     context 'when bt create fails' do
       before(:example) do
         failed_customer = double
-        allow(failed_customer).to receive(:success).and_return(false)
+        allow(failed_customer).to receive(:success?).and_return(false)
         allow(failed_customer).to receive(:errors).and_return('some errors')
         allow(failed_customer).to receive(:id).and_return('456ABC')
+        allow(failed_customer).to receive(:customer).and_return(failed_customer)
         allow(Braintree::Customer).to receive(:create).and_return(failed_customer)
       end
 
@@ -57,7 +59,7 @@ RSpec.describe Transaction, type: :model do
     subject { Transaction.create }
     before(:each) do
       fake_transaction = double
-      allow(fake_transaction).to receive(:success).and_return(true)
+      allow(fake_transaction).to receive(:success?).and_return(true)
       allow(Braintree::Transaction).to receive(:sale).and_return(fake_transaction)
       subject.process_payment
     end
